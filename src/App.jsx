@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Board from './comps/Board/Board'
-import IntroductionPanel from './comps/Introduction/IntroductionPanel'
+import IntroductionPanel from './comps/IntroductionPanel/IntroductionPanel'
 import SideBar from './comps/SideBar/SideBar'
 
 function App() {

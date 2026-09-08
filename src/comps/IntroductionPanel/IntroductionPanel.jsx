@@ -1,4 +1,4 @@
-const IntroductionPage = ({onClose}) =>
+const IntroductionPanel = ({onClose}) =>
 {
     return(
         <div
@@ -72,4 +72,4 @@ const IntroductionPage = ({onClose}) =>
     )
 }
 
-export default IntroductionPage
+export default IntroductionPanel
