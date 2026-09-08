@@ -15,7 +15,6 @@ const SideBar = () => {
             backdrop-blur-md overflow-hidden box-border 
             shrink-0"
         >
-            {/* 📱 Mobile: 2 Columns | 💻 Desktop: Stacked Vertically */}
             <div className="grid grid-cols-2 xl:grid-cols-1 gap-3 w-full">
                 <PlayerContainer />
                 <DiceBox />

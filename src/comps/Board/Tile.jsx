@@ -128,28 +128,6 @@ const Tile = ({ value, players, snakes, ladders }) => {
                 })}
             </div>
 
-            {/* Snake Sprites Layer */}
-            {/* <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                {snakes.map((snake) => {
-                    const isHead = snake.head === value
-                    const isTail = snake.tail === value
-                    const isMiddleBody = snake.body.includes(value) && !isHead && !isTail
-
-                    if (!isHead && !isTail && !isMiddleBody) return null
-
-                    return (
-                        <div 
-                            key={snake.id} 
-                            className="w-full h-full flex items-center justify-center transition-opacity duration-300"
-                        >
-                            {isHead && <SnakeHead type={snake.type} />}
-                            {isTail && <SnakeTail type={snake.type} />}
-                            {isMiddleBody && <SnakeBody type={snake.type} />}
-                        </div>
-                    )
-                })}
-            </div> */}
-
             {/* Players Layer */}
             <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
                 {playersAtTile.map((player, index) => {

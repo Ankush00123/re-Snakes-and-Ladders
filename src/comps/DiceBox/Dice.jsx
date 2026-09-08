@@ -20,7 +20,7 @@ const Dice = ({ roll, handleClick }) => {
                 transition-transform 
                 hover:scale-105 active:rotate-6 duration-150"
         >
-            {roll === 0 && <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Roll</span>}
+            {roll === 0 && <span className="text-[10px] font-bold text-sky-400 uppercase tracking-widest">Roll</span>}
             {roll === 1 && <Face1 />}
             {roll === 2 && <Face2 />}
             {roll === 3 && <Face3 />}

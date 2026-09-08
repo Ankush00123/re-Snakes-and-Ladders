@@ -10,7 +10,7 @@ const Player = ({ player, isTurn }) => {
         dispatch(updateActivePlayers(-1))
     }
 
-    const activeEffects = player.effects.filter(e => e.isActive)
+    const activeEffects = player.effects.filter(effect => effect.isActive)
 
     return (
         <div 
@@ -43,7 +43,7 @@ const Player = ({ player, isTurn }) => {
                 </button>
             </div>
 
-            {/* Debuff Pills */}
+            {/* effects */}
             {activeEffects.length > 0 && (
                 <div className="flex items-center gap-1 mt-0.5">
                     {activeEffects.map((effect) => {

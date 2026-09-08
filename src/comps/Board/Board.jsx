@@ -1,4 +1,4 @@
-import { positionToCoordinate } from '../../utils/checks'
+import { positionToCoordinate } from '../../utils/converts'
 import Tile from './Tile'
 import { useSelector } from 'react-redux'
 
@@ -25,12 +25,6 @@ const Board = () => {
     const snakes = useSelector(state => state.snakes.snakeList)
     const ladders = useSelector(state => state.ladders.ladderList)
 
-    const SNAKE_STYLES = {
-        boss: { base: "#dc2626", scales: "#7f1d1d", width: "5" },      // Red
-        poison: { base: "#a855f7", scales: "#581c87", width: "3.7" },   // Purple
-        paralysis: { base: "#eab308", scales: "#713f12", width: "3.5" },// Yellow
-        brute: { base: "#ea580c", scales: "#7c2d12", width: "4" }     // Orange
-    }
 
     return (
         <div className="
@@ -59,7 +53,6 @@ const Board = () => {
                 {snakes.map(snake => {
                     if (!snake.body || snake.body.length === 0) return null
 
-                    const style = SNAKE_STYLES[snake.type]
                     const dPath = snake.body.map((tile, index) => {
                         const { x, y } = getTileCenter(tile)
                         return `${index === 0 ? 'M' : 'L'} ${x} ${y}`
@@ -74,25 +67,13 @@ const Board = () => {
                             {/* 1. Base Snake Body (Thick Line) */}
                             <path
                                 d={dPath}
-                                stroke={style.base}
-                                strokeWidth={style.width}
+                                stroke={snake.base}
+                                strokeWidth={snake.width}
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 fill="none"
                                 className={`drop-shadow-lg`}
                             />
-
-                            {/* 2. Snake Scales/Stripes (Dashed Overlay) */}
-                            {/* <path
-                                d={dPath}
-                                stroke={style.scales}
-                                strokeWidth={parseFloat(style.width) - 1.5}
-                                strokeDasharray="1.5 2.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                fill="none"
-                                className={snake.isActive ? 'opacity-100' : 'opacity-60'}
-                            /> */}
                             
                             {/* 3. Rotated Snake Head Group */}
                             <g transform={`rotate(${angle}, ${headPos.x}, ${headPos.y})`}>
@@ -112,7 +93,7 @@ const Board = () => {
                                     cy={headPos.y} 
                                     rx={snake.type === 'boss' ? "3.5" : "2.8"} 
                                     ry={snake.type === 'boss' ? "2.5" : "2.0"} 
-                                    fill={style.base}
+                                    fill={snake.base}
                                 />
 
                                 {/* Left Eye */}

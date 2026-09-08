@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import players from "../data/players"
-import { positionToCoordinate } from "../utils/checks"
+import { positionToCoordinate } from "../utils/converts"
 
 export const playerSlice = createSlice(
     {

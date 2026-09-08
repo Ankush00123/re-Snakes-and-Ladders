@@ -1,7 +1,7 @@
 // In src/features/snakeSlice.js
 import { createSlice } from "@reduxjs/toolkit"
 import snakes from '../data/snakes'
-import { positionToCoordinate } from "../utils/checks"
+import { positionToCoordinate } from "../utils/converts"
 
 export const snakeSlice = createSlice({
     name: 'snakes',
@@ -38,9 +38,45 @@ export const snakeSlice = createSlice({
                 //if snakes id is included it set to active else set as inactive
                 state.snakeList[i].isActive = activeIds.includes(state.snakeList[i].id)
             }
+        },
+
+        addBackoffPlayer: (state, action) =>
+        {
+            const {snakeID, playerID} = action.payload
+            const snake = state.snakeList.find((snake) => snake.id == snakeID)
+            if(snake)
+            {
+                if(!snake.backoffPeriod) snake.backoffPeriod = []
+                const existingBackoff = snake.backoffPeriod.find((p) => p.id == playerID)
+                if(existingBackoff) 
+                {
+                    existingBackoff.cd = 3
+                }
+                else
+                {
+                    snake.backoffPeriod.push({id: playerID, cd: 3})
+                }
+            }
+        },
+        
+        decrementBackoff: (state, action) =>
+        {
+            const { playerID } = action.payload
+            
+            // Loop through ALL snakes and reduce for each so only one call is enough
+            state.snakeList.forEach(snake => {
+                if(snake.backoffPeriod)
+                {
+                    const backoff = snake.backoffPeriod.find(p => p.id == playerID)
+                    if(backoff && backoff.cd > 0)
+                    {
+                        backoff.cd--
+                    }
+                }
+            })
         }
     }
 })
 
-export const { updateSnakePosition, syncActiveSnakes } = snakeSlice.actions
+export const { updateSnakePosition, syncActiveSnakes, addBackoffPlayer, decrementBackoff } = snakeSlice.actions
 export default snakeSlice.reducer
