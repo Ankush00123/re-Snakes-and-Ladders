@@ -12,6 +12,7 @@ const IntroductionPage = ({onClose}) =>
             <div
                 className="
                     w-full max-w-md 
+                    max-h-[85vh] overflow-y-auto no-scrollbar /* 👈 Makes it scrollable on mobile while keeping your text */
                     bg-slate-900 
                     border-2 border-emerald-500/50 rounded-2xl
                     shadow-2xl shadow-emerald-900/20 
@@ -46,6 +47,8 @@ const IntroductionPage = ({onClose}) =>
                         <li><span className="text-yellow-400 font-bold">Paralysis:</span> a little harsh one where player can't move if they cant roll a 6</li>
                         <li><span className="text-orange-400 font-bold">Brute:</span> keeps the classic snakes thingy where it puts u down to its tail and additionally makes ur roll to be roll - 1 (eg: u roll 6 if this effect is active ur roll becomes 5) </li>
                     </ul>
+
+                    <p><strong>Ranges:</strong> the snake's ranges are visually represented the more obvious one are the attacking range(i.e on those tiles ur player will get attacked if landed there) or the dimmer ones to show the detection range the snakes can move correct but only when the player is in detection range of snakes </p>
 
                     <p><strong>Boss Snake:</strong> great name fr but works as the major roadblock, it doesnt move and has a hugh range for attack on tiles 99 98 97 96 making the chances of winning much lower in end<strong>ALL</strong> debuffs at once.</p>
                     <p><strong> ladders:</strong> works as normal ladders <strong>but additionally clears debuffs</strong>.</p>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Board from './comps/Board/Board'
-import IntroductionPage from './comps/Introduction/Introduction'
+import IntroductionPanel from './comps/Introduction/IntroductionPanel'
 import SideBar from './comps/SideBar/SideBar'
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
                 relative
             "
         >
-            {showIntroduction && <IntroductionPage onClose={() => setShowIntroduction(false)}/>}
+            {showIntroduction && <IntroductionPanel onClose={() => setShowIntroduction(false)}/>}
             <Board />
             <SideBar />
         </div>
