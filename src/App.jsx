@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import Board from './comps/Board/Board'
+import IntroductionPage from './comps/Introduction/Introduction'
 import SideBar from './comps/SideBar/SideBar'
 
 function App() {
+    const [showIntroduction, setShowIntroduction] = useState(true)
     return (
         <div
             className="
@@ -13,8 +16,10 @@ function App() {
                 overflow-x-hidden overflow-y-auto
                 select-none 
                 box-border
+                relative
             "
         >
+            {showIntroduction && <IntroductionPage onClose={() => setShowIntroduction(false)}/>}
             <Board />
             <SideBar />
         </div>
