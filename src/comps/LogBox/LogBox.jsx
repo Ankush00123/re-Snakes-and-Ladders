@@ -1,18 +1,41 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 const LogBox = () => {
     const loglist = useSelector((state) => state.game.logBox) || [];
     const scrollContainerRef = useRef(null);
 
+    const [isMobile, setIsMobile] = useState(false);
+
     useEffect(() => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTo({
-                top: scrollContainerRef.current.scrollHeight,
-                behavior: "smooth"
-            });
+        const checkScreenSize = () => setIsMobile(window.innerWidth < 1280);
+
+        checkScreenSize();
+        window.addEventListener("resize", checkScreenSize);
+        return () => window.removeEventListener("resize", checkScreenSize);
+    }, []);
+
+    useEffect(() => {
+        if (scrollContainerRef.current)
+        {
+            if (isMobile) 
+            {
+                scrollContainerRef.current.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            }
+            else
+            {
+                scrollContainerRef.current.scrollTo({
+                    top: scrollContainerRef.current.scrollHeight,
+                    behavior: "smooth"
+                });
+            }
         }
-    }, [loglist]);
+    }, [loglist, isMobile]);
+
+    const displayedLogs = isMobile ? loglist.slice().reverse() : loglist;
 
     return (
         //the box 
@@ -34,12 +57,12 @@ const LogBox = () => {
                 ref={scrollContainerRef}
                 className="flex-1 overflow-y-auto no-scrollbar space-y-1.5 pr-1 font-mono text-[11px] leading-relaxed text-slate-300"
             >
-                {loglist.length === 0 ? (
+                {displayedLogs.length === 0 ? (
                     <div className="text-slate-600 italic text-center py-4">Waiting for game to start....</div>
                 )
                 : 
                 (
-                    loglist.map((log, index) => (
+                    displayedLogs.map((log, index) => (
                         <div
                             key={index}
                             className="p-1.5 rounded bg-slate-900/60 border border-slate-800/50 wrap-break-words"
