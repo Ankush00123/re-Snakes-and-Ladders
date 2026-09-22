@@ -7,12 +7,16 @@ const ladderSlice = createSlice({
         ladderList: ladders
     },
     reducers: {
-
+        loadLadderState: (state, action) => {
+            return action.payload;
+        }
     }
 
 })
 
-export const {} = ladderSlice.actions
+export const {
+    loadLadderState    
+} = ladderSlice.actions
 
 export default ladderSlice.reducer
 

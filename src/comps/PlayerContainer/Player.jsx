@@ -1,13 +1,17 @@
 import { useDispatch } from "react-redux"
-import { setPlayerInactive } from "../../features/playerSlice"
+import { setBotInactive, setPlayerInactive } from "../../features/playerSlice"
 import { updateActivePlayers } from "../../features/gameSlice"
 
 const Player = ({ player, isTurn }) => {
     const dispatch = useDispatch()
 
     const handleRemove = () => {
-        dispatch(setPlayerInactive({ id: player.id }))
-        dispatch(updateActivePlayers(-1))
+        if (player.isBot)
+        {
+            dispatch(setBotInactive());
+        }
+        dispatch(setPlayerInactive({ id: player.id }));
+        dispatch(updateActivePlayers(-1));
     }
 
     const activeEffects = player.effects.filter(effect => effect.isActive)

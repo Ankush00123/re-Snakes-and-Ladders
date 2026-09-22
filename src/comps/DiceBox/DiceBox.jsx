@@ -1,9 +1,27 @@
 import Dice from './Dice'
-import useGameEngine from "../../hooks/useGameEngine"
+import useGameEngine from "../../hooks/useGameEngine";
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
 
 const DiceBox = () => {
     const {handleRoll, roll, activePlayer, isGameOver, isAnimating} = useGameEngine()
     
+    const currentActiveIndex = useSelector(state => state.game.currentActiveIndex);
+    const players = useSelector(state => state.players.playerList);
+
+    //bot logic
+    useEffect(() => {
+        if (isGameOver || isAnimating) return;
+        const currentPlayer = players[currentActiveIndex];
+        if (currentPlayer && currentPlayer.isBot)
+        {
+            const timer = setTimeout(() => {
+                handleRoll();
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [currentActiveIndex, players, isGameOver, isAnimating]);
     return (
         //the outermost box
         <div 

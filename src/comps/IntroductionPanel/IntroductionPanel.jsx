@@ -39,7 +39,7 @@ const IntroductionPanel = ({onClose}) =>
                 >
                     
                     <p><strong>Snakes</strong> The main part of this game are the snakes. The snakes can move and can be distinguished by color(as of right now)</p>
-                    <p> the red snake is boss snake, the yellow one is Paralysis, the orange one is brute and the purple one might be tough but its poison</p>
+                    <p> The Boss(99) snake, the yellow one is Paralysis, the orange one is brute and the purple one might be tough but its poison</p>
                     <p> the snake types are used for debuffs different types different debuffs</p>
                     
                     <ul className="list-disc pl-5 space-y-1 text-xs text-slate-400">

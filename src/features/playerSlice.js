@@ -8,6 +8,7 @@ export const playerSlice = createSlice(
 
         initialState: {
             playerList: players,
+            botActive: false,
         },
 
         reducers:{
@@ -27,12 +28,18 @@ export const playerSlice = createSlice(
                 })
             },
 
-            setPlayerActive: (state) => {
+            setPlayerActive: (state, action) => {
+                const { isBOT } = action.payload;
                 for(let i = 0; i < state.playerList.length; i++)
                 {
                     if(state.playerList[i].isActive == false)
                     {
                         state.playerList[i].isActive = true
+                        if (isBOT) 
+                        {
+                            state.playerList[i].name = "BOT Player";
+                            state.playerList[i].isBot = true;
+                        }
                         console.log(`${state.playerList[i].name} is set to active`)
                         return
                     }
@@ -43,7 +50,7 @@ export const playerSlice = createSlice(
             setPlayerInactive: (state, action) => {
                 const {id} = action.payload
                 state.playerList = state.playerList.map(player => (
-                    player.id === id ? {...player, isActive: false, position: 1, row: 9, col: 0} : player
+                    player.id === id ? {...player,name: "Player " + id,  isActive: false, position: 1, row: 9, col: 0, isBot: false} : player
                 ))
             },
 
@@ -106,11 +113,32 @@ export const playerSlice = createSlice(
                     }
                     return player
                 })
+            },
+            loadPlayerState: (state, action) => {
+                return action.payload;
+            },
+
+            setBotActive: (state) => {
+                state.botActive = true;
+            },
+
+            setBotInactive: (state) => {
+                state.botActive = false;
             }
         }
     }
 )
 
-export const {updatePlayerPosition, setPlayerActive, setPlayerInactive, addEffect, removeEffect, updateEffect} = playerSlice.actions
+export const {
+    updatePlayerPosition,
+    setPlayerActive,
+    setPlayerInactive,
+    addEffect,
+    removeEffect,
+    updateEffect,
+    loadPlayerState,
+    setBotActive,
+    setBotInactive
+} = playerSlice.actions
 
 export default playerSlice.reducer

@@ -50,11 +50,12 @@ export const snakeSlice = createSlice({
                 const existingBackoff = snake.backoffPeriod.find((p) => p.id == playerID)
                 if(existingBackoff) 
                 {
-                    existingBackoff.cd = 3
+                    //only two works even tho turns are decremented in new turn due to redux stale states
+                    existingBackoff.cd = 2
                 }
                 else
                 {
-                    snake.backoffPeriod.push({id: playerID, cd: 3})
+                    snake.backoffPeriod.push({id: playerID, cd: 2})
                 }
             }
         },
@@ -74,9 +75,12 @@ export const snakeSlice = createSlice({
                     }
                 }
             })
+        },
+        loadSnakeState: (state, action) => {
+            return action.payload;
         }
     }
 })
 
-export const { updateSnakePosition, syncActiveSnakes, addBackoffPlayer, decrementBackoff } = snakeSlice.actions
+export const { updateSnakePosition, syncActiveSnakes, addBackoffPlayer, decrementBackoff, loadSnakeState } = snakeSlice.actions
 export default snakeSlice.reducer

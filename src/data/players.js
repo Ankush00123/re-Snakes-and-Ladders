@@ -24,7 +24,8 @@ const players = [
             },
         ],
         isActive: true,
-        hasCompleted: false
+        hasCompleted: false,
+        isBot: false,
     },
 
     {
@@ -52,7 +53,8 @@ const players = [
             },
         ],
         isActive: false,
-        hasCompleted: false
+        hasCompleted: false,
+        isBot: false
     },
 
     {
@@ -80,7 +82,8 @@ const players = [
             },
         ],
         isActive: false,
-        hasCompleted: false
+        hasCompleted: false,
+        isBot: false
     },
 
     {
@@ -108,7 +111,8 @@ const players = [
             },
         ],
         isActive: false,
-        hasCompleted: false
+        hasCompleted: false,
+        isBot: false,
     },
 ]
 

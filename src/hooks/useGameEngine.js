@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { appendLogBox, setGameOver, setRoll, nextTurn } from "../features/gameSlice"
 import { addEffect, removeEffect, updateEffect, updatePlayerPosition } from "../features/playerSlice"
@@ -25,6 +25,12 @@ const useGameEngine = () =>
 
     const [isAnimating, setIsAnimating] = useState(false)
 
+    const loadCounter = useSelector(state => state.game.loadCounter);
+    const loadCounterRef = useRef(loadCounter);
+    useEffect(() => {
+        loadCounterRef.current = loadCounter;
+    }, [loadCounter]);
+
     //whenever turn changes the active snakes are set according to the current player
     useEffect(() => {
         if (!activePlayer || isGameOver)
@@ -40,6 +46,8 @@ const useGameEngine = () =>
     async function handleRoll() {
         if(isAnimating) return
         
+        const currentCounter = loadCounterRef.current;
+
         if (isGameOver || !activePlayer) {
             dispatch(appendLogBox(`Game already Ended`))
             return 
@@ -105,6 +113,7 @@ const useGameEngine = () =>
                 {
                     dispatch(updatePlayerPosition({id: activePlayer.id, newPosition: step}))
                     await delay(300)
+                    if (loadCounterRef.current > currentCounter) return;
                 }
                 local_players = updateLocalPlayers(newPlayer, local_players)
             }
@@ -121,6 +130,7 @@ const useGameEngine = () =>
                     {
                         dispatch(updatePlayerPosition({id: newPlayer.id, newPosition: local_ladders[i].body[j]}))
                         await delay(300)
+                        if (loadCounterRef.current > currentCounter) return;
                     }
                     dispatch(removeEffect({ id: activePlayer.id, effectType: "poison" }))
                     dispatch(removeEffect({ id: activePlayer.id, effectType: "paralysis" }))
@@ -170,6 +180,7 @@ const useGameEngine = () =>
                             {
                                 dispatch(updatePlayerPosition({id: activePlayer.id, newPosition: local_snakes[i].body[j]}))
                                 await delay(300)
+                                if (loadCounterRef.current > currentCounter) return;
                             }
                             dispatch(appendLogBox(`${activePlayer.name} got bit by boss snake and has been debuffed`))
                             //updates the player so its old positions are invalidated
@@ -194,6 +205,7 @@ const useGameEngine = () =>
                                 {
                                     dispatch(updatePlayerPosition({id: newPlayer.id, newPosition: local_snakes[i].body[j]}))
                                     await delay(300)
+                                    if (loadCounterRef.current > currentCounter) return;
                                 }
                                 newPlayer = setNewPlayer(newPlayer, local_snakes[i].tail)
                                 local_players = updateLocalPlayers(newPlayer, local_players)
@@ -217,6 +229,7 @@ const useGameEngine = () =>
                                 {
                                     dispatch(updateSnakePosition({id: local_snakes[i].id, newPosition: moves[j]}))
                                     await delay(300)
+                                    if (loadCounterRef.current > currentCounter) return;
 
                                     const translate = positionToCoordinate(moves[j])
                                     newSnake = setNewSnake(newSnake, translate.row, translate.col)
@@ -231,6 +244,7 @@ const useGameEngine = () =>
                     }
                 }
             }
+            
             //returns if player is bitten by some snake while setting up the next turn
             if(isBitten)
             {
@@ -239,13 +253,12 @@ const useGameEngine = () =>
             }
 
 
-            
             if (newPlayer.position == 100) {
                 dispatch(setGameOver(true))
                 dispatch(appendLogBox(`${activePlayer.name} wins the game `))
                 return
             }
-
+            
             dispatch(nextTurn(local_players))
         }
         finally

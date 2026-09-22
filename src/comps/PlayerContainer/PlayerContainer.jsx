@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Player from './Player'
-import { setPlayerActive } from '../../features/playerSlice'
+import { setBotActive, setPlayerActive } from '../../features/playerSlice'
 import { updateActivePlayers } from '../../features/gameSlice'
+import { use } from 'react'
 
 const PlayerContainer = () => {
     const players = useSelector(state => state.players.playerList)
@@ -9,10 +10,21 @@ const PlayerContainer = () => {
     const currentActiveIndex = useSelector(state => state.game.currentActiveIndex)
     const dispatch = useDispatch()
 
+    const botActive = useSelector(state => state.players.botActive);
+
+
     const handle_add_player = () => {
-        dispatch(setPlayerActive())
+        dispatch(setPlayerActive({isBOT: false}));
         if (active_players < 4) {
-            dispatch(updateActivePlayers(1))
+            dispatch(updateActivePlayers(1));
+        }
+    }
+    const handle_add_bot_player = () => {
+        dispatch(setPlayerActive({isBOT: true}));
+        if (active_players < 4)
+        {
+            dispatch(updateActivePlayers(1));
+            dispatch(setBotActive());
         }
     }
 
@@ -43,6 +55,15 @@ const PlayerContainer = () => {
                     className="mt-2 w-full py-1.5 px-3 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 hover:border-emerald-500/50 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer active:scale-98"
                 >
                     + Add Player
+                </button>
+            )}
+
+            {active_players < 4 && !botActive && (
+                <button
+                    onClick={handle_add_bot_player}
+                    className="mt-2 w-full py-1.5 px-3 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 hover:border-emerald-500/50 rounded-lg text-xs font-semibold tracking-wide transition-all cursor-pointer active:scale-98"
+                >
+                    + Add Bot Player
                 </button>
             )}
         </div>

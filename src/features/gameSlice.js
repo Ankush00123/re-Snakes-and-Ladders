@@ -12,6 +12,7 @@ export const gameSlice = createSlice(
             activePlayers: 1,
             gameOver: false,
             currentActiveIndex: 0,
+            loadCounter: 0,
         },
 
         reducers: {
@@ -52,14 +53,17 @@ export const gameSlice = createSlice(
                 state.currentActiveIndex = turnOrder[nextActive]
 
             },
-
             setGameOver: (state, action) => {
                 state.gameOver = action.payload
             },
 
-            saveGameProgress: (state, payload) => {
-                
-            }
+            loadGameState: (state, action) => {
+                const newGameState = action.payload;
+                return {
+                    ...newGameState,
+                    loadCounter: state.loadCounter + 1
+                }
+            },
         }
     }
 )
@@ -70,7 +74,7 @@ export const {
     appendLogBox,
     nextTurn,
     setGameOver,
-    saveGameProgress
+    loadGameState
 } = gameSlice.actions
 
 export default gameSlice.reducer
